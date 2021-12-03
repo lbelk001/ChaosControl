@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ChaosControl</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="enter_item_here">Enter item here</string>
+</resources>
