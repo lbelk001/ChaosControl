@@ -1,23 +1,30 @@
 package edu.mssu.cis385.implicitintentsreceiver.chaoscontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ShoppingList extends AppCompatActivity {
 
-    ListView shoppingList;
-    ArrayList<String> items;
-    ArrayAdapter<String> adapter;
+    @SuppressLint("StaticFieldLeak")
+    static ListView shoppingList;
+    static ArrayList<String> items;
+    @SuppressLint("StaticFieldLeak")
+    static ListViewAdapter adapter;
 
     EditText input;
     ImageView enter;
@@ -31,9 +38,17 @@ public class ShoppingList extends AppCompatActivity {
         input=findViewById(R.id.input);
         enter=findViewById(R.id.addItem);
 
-        items = new ArrayList<>();
+        loadList();
 
-        adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveList();
+            }
+        });
+
+        adapter = new ListViewAdapter(getApplicationContext(), items);
         shoppingList.setAdapter(adapter);
 
         enter.setOnClickListener(new View.OnClickListener(){
@@ -45,10 +60,36 @@ public class ShoppingList extends AppCompatActivity {
                 }else{
                     addItem(text);
                     input.setText("");
-                    makeToast("Added" + text);
+                    makeToast("Added " + text);
                 }
             }
         });
+    }
+
+    public static void removeItem(int remove){
+        items.remove(remove);
+        shoppingList.setAdapter(adapter);
+    }
+
+    private void saveList() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(items);
+        editor.putString("shopping list", json);
+        editor.apply();
+    }
+
+    private void loadList(){
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("shopping list", null);
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        items = gson.fromJson(json, type);
+
+        if(items == null){
+            items = new ArrayList<>();
+        }
     }
 
     private void addItem(String item) {
@@ -64,4 +105,12 @@ public class ShoppingList extends AppCompatActivity {
         toast.show();
     }
 
+    public void saveList(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(items);
+        editor.putString("shopping list", json);
+        editor.apply();
+    }
 }

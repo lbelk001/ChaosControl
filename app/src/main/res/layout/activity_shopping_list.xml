@@ -7,31 +7,44 @@
     tools:context=".ShoppingList">
 
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/header"
         android:background="#96DED1">
 
         <EditText
+            android:id="@+id/input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:ems="10"
-            android:hint="@string/enter_item_here"
-            android:layout_centerInParent="true"
-            android:id="@+id/input" />
+            android:hint="@string/enter_item_here" />
+
         <ImageView
             android:id="@+id/addItem"
             android:layout_width="40sp"
             android:layout_height="40sp"
-            android:layout_toRightOf="@+id/input"
-            android:layout_marginLeft="6sp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_baseline_playlist_add_24"/>
+            android:layout_marginLeft="10sp"
+            android:layout_toRightOf="@+id/input"
+            android:src="@drawable/ic_baseline_playlist_add_24" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10sp"
+            android:layout_toRightOf="@id/addItem"
+            android:onClick="saveList"
+            android:text="@string/save"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ListView
+        android:id="@+id/shoppingList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id= "@+id/shoppingList"
-        android:layout_below="@+id/header"/>
+        android:layout_below="@+id/header">
+    </ListView>
 </RelativeLayout>
