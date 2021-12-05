@@ -7,4 +7,6 @@
     <string name="take_control_today">Take Control Today!</string>
     <string name="remind_me">Remind Me</string>
     <string name="Inspire_me">If the world did not suck, we would all fall off.</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="day_mode">Day Mode</string>
 </resources>

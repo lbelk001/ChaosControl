@@ -45,6 +45,5 @@
         android:id="@+id/shoppingList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header">
-    </ListView>
+        android:layout_below="@+id/header"></ListView>
 </RelativeLayout>
